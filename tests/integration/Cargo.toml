@@ -1,0 +1,22 @@
+[package]
+name = "integration_tests"
+version.workspace = true
+edition.workspace = true
+publish = false
+
+[lib]
+name = "integration_tests"
+path = "src/lib.rs"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+common = { path = "../../src/common" }
+dfm_lib = { path = "../../src/dfm_lib" }
+fault_lib = { path = "../../src/fault_lib" }
+tempfile = "3.20"
+env_logger.workspace = true
+log.workspace = true
+serial_test.workspace = true
+serde_json.workspace = true
