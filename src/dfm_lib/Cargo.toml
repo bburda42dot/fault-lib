@@ -1,0 +1,24 @@
+[package]
+name = "dfm_lib"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+authors.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+env_logger.workspace = true
+common = { path = "../common" }
+iceoryx2.workspace = true
+iceoryx2-bb-container.workspace = true
+thiserror.workspace = true
+log = { workspace = true, features = ["std"] }
+rust_kvs = { git = "https://github.com/eclipse-score/persistency.git", branch = "main" }
+serde_json.workspace = true
+
+[dev-dependencies]
+mockall.workspace = true
+serial_test.workspace = true
+tempfile = "3.20"
