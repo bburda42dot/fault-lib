@@ -1,0 +1,36 @@
+[package]
+name = "fault_lib"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+readme.workspace = true
+
+[features]
+default = []
+testutils = []
+
+[lints]
+workspace = true
+
+[dependencies]
+common = { path = "../common" }
+iceoryx2.workspace = true
+iceoryx2-bb-container.workspace = true
+log = { workspace = true, features = ["std"] }
+serde_json.workspace = true
+serde = { workspace = true, features = ["derive"] }
+sha2.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+clap = { version = "4.5.53", features = ["derive"] }
+env_logger.workspace = true
+mockall.workspace = true
+serial_test.workspace = true
+
+[[example]]
+name = "tst_app"
+required-features = ["testutils"]
+
+[[example]]
+name = "catalog_and_reporter"
