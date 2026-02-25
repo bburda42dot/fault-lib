@@ -1,0 +1,21 @@
+[package]
+name = "common"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+readme.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+iceoryx2.workspace = true
+iceoryx2-bb-container.workspace = true
+serde_json.workspace = true
+serde = { workspace = true, features = ["derive"] }
+log = { workspace = true, features = ["std"] }
+sha2.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+mockall.workspace = true
