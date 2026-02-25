@@ -1,0 +1,98 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+
+name: Coverage
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  COVERAGE_THRESHOLD: 90
+
+jobs:
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2025-07-14
+          components: llvm-tools-preview
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Cache cargo registry & target
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-cov-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-cov-
+
+      - name: Generate coverage (LCOV)
+        run: cargo llvm-cov --workspace --exclude xtask --ignore-filename-regex 'test_utils|dfm_test_utils' --lcov --output-path lcov.info
+
+      - name: Generate coverage summary
+        id: coverage
+        run: |
+          # Extract total line coverage percentage from cargo-llvm-cov text output
+          REPORT=$(cargo llvm-cov --workspace --exclude xtask --ignore-filename-regex 'test_utils|dfm_test_utils' --no-run 2>&1)
+          echo "$REPORT"
+
+          # Parse the TOTAL line for line coverage
+          TOTAL_LINE_COV=$(echo "$REPORT" | grep '^TOTAL' | awk '{print $(NF-3)}' | tr -d '%')
+          echo "total_coverage=$TOTAL_LINE_COV" >> "$GITHUB_OUTPUT"
+          echo "### Coverage Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Total line coverage: ${TOTAL_LINE_COV}%**" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: lcov.info
+          retention-days: 30
+
+      - name: Enforce coverage threshold
+        run: |
+          COVERAGE="${{ steps.coverage.outputs.total_coverage }}"
+          THRESHOLD="${{ env.COVERAGE_THRESHOLD }}"
+          echo "Coverage: ${COVERAGE}%, Threshold: ${THRESHOLD}%"
+          if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
+            echo "::error::Coverage ${COVERAGE}% is below threshold ${THRESHOLD}%"
+            exit 1
+          fi
+          echo "Coverage ${COVERAGE}% meets threshold ${THRESHOLD}%"
