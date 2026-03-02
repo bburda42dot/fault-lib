@@ -177,7 +177,7 @@ impl IpcWorkerState {
     }
 
     /// Number of events currently in the retry queue.
-    #[cfg(test)]
+    #[cfg(all(test, not(miri)))]
     fn retry_queue_len(&self) -> usize {
         self.retry_queue.len()
     }
@@ -219,7 +219,7 @@ impl IpcWorker {
     ///
     /// Each test can supply a unique service name to avoid iceoryx2 shared
     /// memory conflicts when tests run in parallel.
-    #[cfg(test)]
+    #[cfg(all(test, not(miri)))]
     pub fn with_test_service(sink_receiver: WorkerReceiver, retry_config: RetryConfig, service_name: &str) -> Result<Self, SinkInitError> {
         Self::create(sink_receiver, retry_config, service_name, Weak::<EnablingConditionManager>::new())
     }
