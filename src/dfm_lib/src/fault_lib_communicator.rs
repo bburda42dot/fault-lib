@@ -79,6 +79,7 @@ pub struct Iceoryx2Transport {
 
 /// Service names bundle for test isolation.
 #[cfg(test)]
+#[cfg(not(miri))]
 pub(crate) struct TestServiceNames {
     pub event: String,
     pub hash_response: String,
@@ -170,6 +171,7 @@ impl Iceoryx2Transport {
     /// Each test can supply unique service names to avoid iceoryx2 shared
     /// memory conflicts when tests run in parallel.
     #[cfg(test)]
+    #[cfg(not(miri))]
     #[allow(clippy::expect_used, clippy::unwrap_used)]
     pub(crate) fn with_test_services(names: &TestServiceNames) -> Self {
         let node_name = NodeName::new("test_fault_listener_node").unwrap();
