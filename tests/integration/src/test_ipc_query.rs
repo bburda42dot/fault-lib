@@ -12,9 +12,9 @@
 
 //! Integration tests for the DFM query/clear API.
 //!
-//! **Part 1 - DirectDfmQuery baseline:** process faults via `FaultRecordProcessor`,
-//! then query/clear via `SovdFaultManager`. Covers get_all, get_fault, delete_single,
-//! delete_all, bad_path, not_found.
+//! **Part 1 - `DirectDfmQuery` baseline:** process faults via `FaultRecordProcessor`,
+//! then query/clear via `SovdFaultManager`. Covers `get_all`, `get_fault`, `delete_single`,
+//! `delete_all`, `bad_path`, `not_found`.
 //!
 //! **Part 2 - IPC E2E:** `DiagnosticFaultManager::with_query_server()` + `Iceoryx2DfmQuery`
 //! over real iceoryx2 shared-memory transport.

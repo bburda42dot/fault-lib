@@ -24,7 +24,7 @@ use serial_test::serial;
 // 1. Max-length fault IDs
 // ============================================================================
 
-/// A text FaultId at the maximum ShortString length (64 bytes) should
+/// A text `FaultId` at the maximum `ShortString` length (64 bytes) should
 /// work correctly through the full pipeline.
 #[test]
 #[serial]
@@ -64,7 +64,7 @@ fn max_length_text_fault_id() {
     assert_eq!(fault.typed_status.as_ref().unwrap().test_failed, Some(true));
 }
 
-/// UUID FaultId (all zeros) boundary value works through pipeline.
+/// UUID `FaultId` (all zeros) boundary value works through pipeline.
 #[test]
 #[serial]
 fn uuid_fault_id_all_zeros() {
@@ -99,7 +99,7 @@ fn uuid_fault_id_all_zeros() {
     assert_eq!(faults[0].code, "00000000-0000-0000-0000-000000000000");
 }
 
-/// UUID FaultId (all 0xFF) boundary value works through pipeline.
+/// UUID `FaultId` (all 0xFF) boundary value works through pipeline.
 #[test]
 #[serial]
 fn uuid_fault_id_all_max() {
@@ -248,7 +248,7 @@ fn many_catalogs_registered() {
 // 4. Env data limits
 // ============================================================================
 
-/// Fault with maximum env data entries (MetadataVec capacity = 8) works.
+/// Fault with maximum env data entries (`MetadataVec` capacity = 8) works.
 #[test]
 #[serial]
 fn fault_with_max_env_data_entries() {
@@ -284,7 +284,7 @@ fn fault_with_max_env_data_entries() {
 // 5. Unicode in fault IDs and env data
 // ============================================================================
 
-/// Non-ASCII (Unicode) characters in text FaultIds are rejected by
+/// Non-ASCII (Unicode) characters in text `FaultIds` are rejected by
 /// `StaticString` which only accepts ASCII. This is a known API boundary.
 #[test]
 fn unicode_in_text_fault_id_rejected() {
@@ -295,7 +295,7 @@ fn unicode_in_text_fault_id_rejected() {
     );
 }
 
-/// ASCII-only text FaultIds with special characters work correctly.
+/// ASCII-only text `FaultIds` with special characters work correctly.
 #[test]
 #[serial]
 fn special_ascii_chars_in_text_fault_id() {
@@ -335,7 +335,7 @@ fn special_ascii_chars_in_text_fault_id() {
     );
 }
 
-/// Non-ASCII (Unicode) env data values are rejected by StaticString.
+/// Non-ASCII (Unicode) env data values are rejected by `StaticString`.
 /// This documents the API boundary for IPC-safe types.
 #[test]
 fn unicode_in_env_data_rejected() {
@@ -366,7 +366,7 @@ fn special_ascii_in_env_data() {
     assert_eq!(env_data.get("status"), Some(&"fault:active".to_string()));
 }
 
-/// Numeric FaultId boundary: u32::MAX works through the pipeline.
+/// Numeric `FaultId` boundary: `u32::MAX` works through the pipeline.
 #[test]
 #[serial]
 fn numeric_fault_id_max_u32() {

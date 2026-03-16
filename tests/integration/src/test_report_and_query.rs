@@ -12,7 +12,7 @@
 //! Basic report → process → query flow.
 //!
 //! Demonstrates the primary use case: a reporter detects a fault condition,
-//! publishes a FaultRecord, DFM processes it, and the SOVD manager can
+//! publishes a `FaultRecord`, DFM processes it, and the SOVD manager can
 //! query the resulting fault status.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
@@ -71,7 +71,7 @@ fn report_single_fault_and_query_via_sovd() {
 /// **Scenario**: Reporter reports a fault with environment data, SOVD returns it.
 ///
 /// Environment data (e.g., sensor readings, temperatures) provides diagnostic
-/// context for troubleshooting. This test verifies env_data flows through the
+/// context for troubleshooting. This test verifies `env_data` flows through the
 /// full pipeline.
 #[test]
 #[serial]

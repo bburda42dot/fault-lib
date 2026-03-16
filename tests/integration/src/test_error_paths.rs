@@ -19,7 +19,7 @@
 //! - Empty catalog behavior
 //! - KVS storage initialization failures
 //! - Catalog builder double-configuration detection
-//! - Duplicate FaultId detection in catalog configs
+//! - Duplicate `FaultId` detection in catalog configs
 
 use crate::helpers::*;
 use common::catalog::{CatalogBuildError, FaultCatalogBuilder, FaultCatalogConfig};
@@ -276,7 +276,7 @@ fn catalog_builder_rejects_duplicate_numeric_fault_id() {
     );
 }
 
-/// Duplicate text-based FaultIds are also caught.
+/// Duplicate text-based `FaultIds` are also caught.
 #[test]
 fn catalog_builder_rejects_duplicate_text_fault_id() {
     let dup_config = FaultCatalogConfig {

@@ -16,7 +16,8 @@
         clippy::expect_used,
         clippy::std_instead_of_core,
         clippy::std_instead_of_alloc,
-        clippy::arithmetic_side_effects
+        clippy::arithmetic_side_effects,
+        clippy::indexing_slicing
     )
 )]
 //! Integration tests demonstrating the fault-lib ↔ DFM end-to-end flow.

@@ -25,7 +25,7 @@ rust_library(
         "//src/common",
         "@score_fault_lib_crates//:iceoryx2",
         "@score_fault_lib_crates//:iceoryx2-bb-container",
-        "@score_fault_lib_crates//:log",
+        "@score_fault_lib_crates//:tracing",
         "@score_fault_lib_crates//:rust_kvs",
         "@score_fault_lib_crates//:serde_json",
         "@score_fault_lib_crates//:thiserror",
@@ -40,7 +40,7 @@ rust_test(
         "//src/common",
         "@score_fault_lib_crates//:iceoryx2",
         "@score_fault_lib_crates//:iceoryx2-bb-container",
-        "@score_fault_lib_crates//:log",
+        "@score_fault_lib_crates//:tracing",
         "@score_fault_lib_crates//:mockall",
         "@score_fault_lib_crates//:rust_kvs",
         "@score_fault_lib_crates//:serde_json",
@@ -56,8 +56,8 @@ rust_binary(
     deps = [
         ":dfm_lib",
         "//src/common",
-        "@score_fault_lib_crates//:env_logger",
-        "@score_fault_lib_crates//:log",
+        "@score_fault_lib_crates//:tracing-subscriber",
+        "@score_fault_lib_crates//:tracing",
         "@score_fault_lib_crates//:tempfile",
     ],
 )

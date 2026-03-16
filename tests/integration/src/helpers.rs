@@ -106,8 +106,8 @@ impl TestHarness {
 // ============================================================================
 
 /// HVAC subsystem catalog with two faults:
-/// - `CabinTempSensorStuck` (Numeric 0x7001, reporter-side HoldTime debounce)
-/// - `BlowerSpeedMismatch` (Text, manager-side EdgeWithCooldown debounce)
+/// - `CabinTempSensorStuck` (Numeric 0x7001, reporter-side `HoldTime` debounce)
+/// - `BlowerSpeedMismatch` (Text, manager-side `EdgeWithCooldown` debounce)
 pub fn hvac_catalog_config() -> FaultCatalogConfig {
     FaultCatalogConfig {
         id: "hvac".into(),
