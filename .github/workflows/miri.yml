@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   miri:
-    uses: eclipse-opensovd/cicd-workflows/.github/workflows/miri.yml@main
+    uses: bburda42dot/cicd-workflows/.github/workflows/miri.yml@feat/reusable-workflows
     with:
       cargo-locked: true
       exclude-crates: "integration_tests xtask"
