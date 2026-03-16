@@ -11,16 +11,17 @@
  */
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-use common::debounce;
-use common::fault;
-use common::types::to_static_long_string;
-use common::types::to_static_short_string;
 use core::time::Duration;
-use dfm_lib::diagnostic_fault_manager::DiagnosticFaultManager;
-use dfm_lib::fault_catalog_registry::FaultCatalogRegistry;
-use dfm_lib::sovd_fault_manager::Error;
-use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
+
+use common::{
+    catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+    debounce, fault,
+    types::{to_static_long_string, to_static_short_string},
+};
+use dfm_lib::{
+    diagnostic_fault_manager::DiagnosticFaultManager, fault_catalog_registry::FaultCatalogRegistry,
+    sovd_fault_manager::Error, sovd_fault_storage::KvsSovdFaultStateStorage,
+};
 use tempfile::tempdir;
 use tracing_subscriber::EnvFilter;
 

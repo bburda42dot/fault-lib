@@ -15,11 +15,13 @@
 //! [`DfmQueryApi`] enables both in-process ([`DirectDfmQuery`]) and remote
 //! (IPC) access to the Diagnostic Fault Manager's SOVD-compliant fault store.
 
-use crate::fault_catalog_registry::FaultCatalogRegistry;
-use crate::sovd_fault_manager::{Error, SovdEnvData, SovdFault, SovdFaultManager};
-use crate::sovd_fault_storage::SovdFaultStateStorage;
-use alloc::sync::Arc;
-use alloc::vec::Vec;
+use alloc::{sync::Arc, vec::Vec};
+
+use crate::{
+    fault_catalog_registry::FaultCatalogRegistry,
+    sovd_fault_manager::{Error, SovdEnvData, SovdFault, SovdFaultManager},
+    sovd_fault_storage::SovdFaultStateStorage,
+};
 
 /// Abstraction over DFM fault query/clear operations.
 ///
@@ -104,12 +106,15 @@ impl<S: SovdFaultStateStorage> DfmQueryApi for DirectDfmQuery<S> {
     clippy::std_instead_of_alloc
 )]
 mod tests {
-    use super::*;
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use common::fault::{FaultId, LifecycleStage};
-    use common::types::to_static_short_string;
     use std::sync::Arc;
+
+    use common::{
+        fault::{FaultId, LifecycleStage},
+        types::to_static_short_string,
+    };
+
+    use super::*;
+    use crate::{dfm_test_utils::*, fault_record_processor::FaultRecordProcessor};
 
     fn make_direct_query(
         storage: Arc<InMemoryStorage>,

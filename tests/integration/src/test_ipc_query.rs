@@ -12,27 +12,32 @@
 
 //! Integration tests for the DFM query/clear API.
 //!
-//! **Part 1 - DirectDfmQuery baseline:** process faults via `FaultRecordProcessor`,
-//! then query/clear via `SovdFaultManager`. Covers get_all, get_fault, delete_single,
-//! delete_all, bad_path, not_found.
+//! **Part 1 - `DirectDfmQuery` baseline:** process faults via `FaultRecordProcessor`,
+//! then query/clear via `SovdFaultManager`. Covers `get_all`, `get_fault`, `delete_single`,
+//! `delete_all`, `bad_path`, `not_found`.
 //!
 //! **Part 2 - IPC E2E:** `DiagnosticFaultManager::with_query_server()` + `Iceoryx2DfmQuery`
 //! over real iceoryx2 shared-memory transport.
 
-use common::catalog::FaultCatalogBuilder;
-use common::fault::{FaultId, LifecycleStage};
-use dfm_lib::diagnostic_fault_manager::DiagnosticFaultManager;
-use dfm_lib::fault_catalog_registry::FaultCatalogRegistry;
-use dfm_lib::fault_record_processor::FaultRecordProcessor;
-use dfm_lib::operation_cycle::OperationCycleTracker;
-use dfm_lib::query_api::DfmQueryApi;
-use dfm_lib::query_ipc::Iceoryx2DfmQuery;
-use dfm_lib::sovd_fault_manager::Error;
-use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
+use std::{
+    sync::{
+        Arc, RwLock,
+        atomic::{AtomicUsize, Ordering},
+    },
+    time::Duration,
+};
+
+use common::{
+    catalog::FaultCatalogBuilder,
+    fault::{FaultId, LifecycleStage},
+};
+use dfm_lib::{
+    diagnostic_fault_manager::DiagnosticFaultManager, fault_catalog_registry::FaultCatalogRegistry,
+    fault_record_processor::FaultRecordProcessor, operation_cycle::OperationCycleTracker,
+    query_api::DfmQueryApi, query_ipc::Iceoryx2DfmQuery, sovd_fault_manager::Error,
+    sovd_fault_storage::KvsSovdFaultStateStorage,
+};
 use serial_test::serial;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::{Arc, RwLock};
-use std::time::Duration;
 
 use crate::helpers::*;
 

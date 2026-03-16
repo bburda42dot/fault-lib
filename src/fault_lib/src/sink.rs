@@ -10,10 +10,7 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use common::fault::FaultRecord;
-use common::sink_error::SinkError;
-use common::types::DiagnosticEvent;
-
+use common::{fault::FaultRecord, sink_error::SinkError, types::DiagnosticEvent};
 #[cfg(test)]
 use mockall::automock;
 

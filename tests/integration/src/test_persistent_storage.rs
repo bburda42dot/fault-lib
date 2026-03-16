@@ -19,9 +19,10 @@
 //! constraint) and must be annotated with `#[serial]`.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use crate::helpers::*;
 use common::fault::*;
 use serial_test::serial;
+
+use crate::helpers::*;
 
 /// **Scenario**: Fault state persists across DFM restart (storage reload).
 ///

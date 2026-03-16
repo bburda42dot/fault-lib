@@ -19,19 +19,23 @@
 //! - Lifecycle-stage transitions and aging-state management.
 //! - Persistence of confirmed fault state via [`SovdFaultStateStorage`].
 
-use crate::aging_manager::{AgingManager, AgingState};
-use crate::fault_catalog_registry::FaultCatalogRegistry;
-use crate::operation_cycle::OperationCycleTracker;
-use crate::sovd_fault_storage::SovdFaultStateStorage;
 use alloc::sync::Arc;
-use common::debounce::Debounce;
-use common::fault;
-use common::fault::{ComplianceTag, FaultId, LifecycleStage};
-use common::types::{LongString, Sha256Vec};
-use std::collections::HashMap;
-use std::sync::RwLock;
-use std::time::Instant;
+use std::{collections::HashMap, sync::RwLock, time::Instant};
+
+use common::{
+    debounce::Debounce,
+    fault,
+    fault::{ComplianceTag, FaultId, LifecycleStage},
+    types::{LongString, Sha256Vec},
+};
 use tracing::{error, info, trace, warn};
+
+use crate::{
+    aging_manager::{AgingManager, AgingState},
+    fault_catalog_registry::FaultCatalogRegistry,
+    operation_cycle::OperationCycleTracker,
+    sovd_fault_storage::SovdFaultStateStorage,
+};
 
 /// Unique key for per-fault debounce state in DFM.
 /// Combines source path (IPC identity) and fault ID so that each
@@ -397,11 +401,14 @@ mod processor_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_storage::SovdFaultStateStorage;
-    use common::fault::*;
     use std::sync::Arc;
+
+    use common::fault::*;
+
+    use crate::{
+        dfm_test_utils::*, fault_record_processor::FaultRecordProcessor,
+        sovd_fault_storage::SovdFaultStateStorage,
+    };
 
     fn make_processor(
         storage: Arc<InMemoryStorage>,
@@ -553,13 +560,14 @@ mod debounce_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_storage::SovdFaultStateStorage as _;
-    use common::debounce::DebounceMode;
-    use common::fault::*;
-    use std::sync::Arc;
-    use std::time::Duration;
+    use std::{sync::Arc, time::Duration};
+
+    use common::{debounce::DebounceMode, fault::*};
+
+    use crate::{
+        dfm_test_utils::*, fault_record_processor::FaultRecordProcessor,
+        sovd_fault_storage::SovdFaultStateStorage as _,
+    };
 
     fn make_processor(
         storage: Arc<InMemoryStorage>,
@@ -781,11 +789,14 @@ mod iso14229_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_storage::SovdFaultStateStorage;
-    use common::fault::*;
     use std::sync::Arc;
+
+    use common::fault::*;
+
+    use crate::{
+        dfm_test_utils::*, fault_record_processor::FaultRecordProcessor,
+        sovd_fault_storage::SovdFaultStateStorage,
+    };
 
     fn make_processor(
         storage: Arc<InMemoryStorage>,

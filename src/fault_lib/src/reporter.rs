@@ -9,18 +9,20 @@
  * terms of the Apache License Version 2.0 which is available at
  * https://www.apache.org/licenses/LICENSE-2.0
  */
-use crate::{
-    FaultApi,
-    sink::{FaultSinkApi, LogHook},
-};
 use alloc::sync::Arc;
-use common::debounce::Debounce;
+use std::time::{Instant, SystemTime, UNIX_EPOCH};
+
 use common::{
+    debounce::Debounce,
     fault::{FaultDescriptor, FaultId, FaultRecord, IpcTimestamp, LifecyclePhase, LifecycleStage},
     sink_error::SinkError,
     types::MetadataVec,
 };
-use std::time::{Instant, SystemTime, UNIX_EPOCH};
+
+use crate::{
+    FaultApi,
+    sink::{FaultSinkApi, LogHook},
+};
 
 // Per-component defaults that get baked into a Reporter instance.
 #[derive(Debug, Clone)]
@@ -197,9 +199,7 @@ impl Reporter {
 #[allow(clippy::unwrap_used, clippy::expect_used)]
 mod tests {
     use super::*;
-    use crate::sink::MockFaultSinkApi;
-    use crate::test_utils::*;
-    use crate::utils::to_static_short_string;
+    use crate::{sink::MockFaultSinkApi, test_utils::*, utils::to_static_short_string};
 
     #[test]
     fn create_record() {
@@ -297,18 +297,28 @@ mod design_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-    use crate::reporter::{Reporter, ReporterApi};
-    use crate::sink::{FaultSinkApi, LogHook};
-    use crate::test_utils::*;
-    use crate::utils::to_static_short_string;
-    use common::config::{ResetPolicy, ResetTrigger};
-    use common::debounce::DebounceMode;
-    use common::fault::*;
-    use common::sink_error::SinkError;
-    use std::sync::Arc;
-    use std::sync::atomic::{AtomicU32, Ordering};
-    use std::time::{Duration, Instant};
+    use std::{
+        sync::{
+            Arc,
+            atomic::{AtomicU32, Ordering},
+        },
+        time::{Duration, Instant},
+    };
+
+    use common::{
+        config::{ResetPolicy, ResetTrigger},
+        debounce::DebounceMode,
+        fault::*,
+        sink_error::SinkError,
+    };
+
+    use crate::{
+        catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+        reporter::{Reporter, ReporterApi},
+        sink::{FaultSinkApi, LogHook},
+        test_utils::*,
+        utils::to_static_short_string,
+    };
 
     // ============================================================================
     // Helper functions
@@ -1196,14 +1206,16 @@ mod error_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-    use crate::reporter::{Reporter, ReporterApi};
-    use crate::test_utils::*;
-    use crate::utils::to_static_short_string;
-    use common::fault::*;
-    use common::sink_error::SinkError;
-    use std::borrow::Cow;
-    use std::sync::Arc;
+    use std::{borrow::Cow, sync::Arc};
+
+    use common::{fault::*, sink_error::SinkError};
+
+    use crate::{
+        catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+        reporter::{Reporter, ReporterApi},
+        test_utils::*,
+        utils::to_static_short_string,
+    };
 
     // ============================================================================
     // SinkError variant tests
@@ -1596,15 +1608,20 @@ mod concurrent_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::reporter::Reporter;
-    use crate::reporter::ReporterApi;
-    use crate::sink::FaultSinkApi;
-    use crate::test_utils::*;
-    use crate::utils::to_static_short_string;
+    use std::{
+        sync::Arc,
+        thread,
+        time::{Duration, Instant},
+    };
+
     use common::fault::*;
-    use std::sync::Arc;
-    use std::thread;
-    use std::time::{Duration, Instant};
+
+    use crate::{
+        reporter::{Reporter, ReporterApi},
+        sink::FaultSinkApi,
+        test_utils::*,
+        utils::to_static_short_string,
+    };
 
     // ============================================================================
     // Concurrent publish tests
@@ -1864,12 +1881,15 @@ mod timestamp_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::reporter::Reporter;
-    use crate::reporter::ReporterApi;
-    use crate::test_utils::*;
-    use crate::utils::to_static_short_string;
-    use common::fault::*;
     use std::sync::Arc;
+
+    use common::fault::*;
+
+    use crate::{
+        reporter::{Reporter, ReporterApi},
+        test_utils::*,
+        utils::to_static_short_string,
+    };
 
     // ============================================================================
     // Current behavior (timestamps are zero)

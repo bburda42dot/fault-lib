@@ -25,14 +25,17 @@
 //!   and dispatches notifications to registered monitors.
 
 use alloc::sync::{Arc, Weak};
-use common::enabling_condition::EnablingConditionStatus;
-use common::sink_error::SinkError;
-use common::types::{DiagnosticEvent, ShortString};
-use core::panic::AssertUnwindSafe;
-use core::sync::atomic::{AtomicU64, Ordering};
-use std::collections::HashMap;
-use std::panic::catch_unwind;
-use std::sync::RwLock;
+use core::{
+    panic::AssertUnwindSafe,
+    sync::atomic::{AtomicU64, Ordering},
+};
+use std::{collections::HashMap, panic::catch_unwind, sync::RwLock};
+
+use common::{
+    enabling_condition::EnablingConditionStatus,
+    sink_error::SinkError,
+    types::{DiagnosticEvent, ShortString},
+};
 use tracing::{debug, error, warn};
 
 // ============================================================================
@@ -421,8 +424,9 @@ impl EnablingConditionManager {
     clippy::arithmetic_side_effects
 )]
 mod tests {
-    use super::*;
     use std::sync::atomic::AtomicUsize;
+
+    use super::*;
 
     fn make_manager() -> Arc<EnablingConditionManager> {
         let sink: Arc<dyn crate::FaultSinkApi> = Arc::new(crate::test_utils::RecordingSink::new());

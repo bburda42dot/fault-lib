@@ -10,13 +10,16 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use crate::ResetPolicy;
-use crate::debounce::DebounceMode;
-use crate::ids::SourceId;
-use crate::types::{LongString, MetadataVec, ShortString};
 use iceoryx2::prelude::ZeroCopySend;
 use iceoryx2_bb_container::vector::StaticVec;
 use serde::{Deserialize, Serialize};
+
+use crate::{
+    ResetPolicy,
+    debounce::DebounceMode,
+    ids::SourceId,
+    types::{LongString, MetadataVec, ShortString},
+};
 
 /// Fixed-capacity vector of compliance tags (max 8).
 pub type ComplianceVec = StaticVec<ComplianceTag, 8>;
@@ -273,8 +276,9 @@ pub struct FaultRecord {
 #[cfg(test)]
 #[allow(clippy::unwrap_used, clippy::expect_used)]
 mod tests {
-    use super::*;
     use std::collections::HashSet;
+
+    use super::*;
 
     // ========== FaultId Tests ==========
 

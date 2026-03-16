@@ -11,19 +11,18 @@
  */
 // Test utilities are exclusively used by tests — unwrap/expect is acceptable.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
-use crate::reporter::ReporterConfig;
-use crate::sink::FaultSinkApi;
-use crate::utils::*;
 use alloc::string::String;
-use common::config::ResetPolicy;
-use common::debounce::DebounceMode;
-use common::fault::*;
-use common::ids::*;
-use common::sink_error::SinkError;
-use common::types::*;
-use core::sync::atomic::{AtomicU32, AtomicUsize, Ordering};
-use core::time::Duration;
+use core::{
+    sync::atomic::{AtomicU32, AtomicUsize, Ordering},
+    time::Duration,
+};
 use std::sync::Mutex;
+
+use common::{
+    config::ResetPolicy, debounce::DebounceMode, fault::*, ids::*, sink_error::SinkError, types::*,
+};
+
+use crate::{reporter::ReporterConfig, sink::FaultSinkApi};
 
 // ============================================================================
 // IPC Test Isolation Helpers

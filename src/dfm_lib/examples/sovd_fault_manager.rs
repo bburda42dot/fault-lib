@@ -11,22 +11,23 @@
  */
 #![allow(clippy::unwrap_used, clippy::expect_used, clippy::std_instead_of_alloc)]
 
-use common::SourceId;
-use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-use common::debounce;
-use common::fault;
-use common::fault::IpcTimestamp;
-use common::types::MetadataVec;
-use common::types::ShortString;
-use common::types::to_static_long_string;
-use common::types::to_static_short_string;
 use core::time::Duration;
-use dfm_lib::OperationCycleTracker;
-use dfm_lib::fault_catalog_registry::FaultCatalogRegistry;
-use dfm_lib::fault_record_processor::FaultRecordProcessor;
-use dfm_lib::sovd_fault_manager::{Error, SovdFaultManager};
-use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
 use std::sync::Arc;
+
+use common::{
+    SourceId,
+    catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+    debounce, fault,
+    fault::IpcTimestamp,
+    types::{MetadataVec, ShortString, to_static_long_string, to_static_short_string},
+};
+use dfm_lib::{
+    OperationCycleTracker,
+    fault_catalog_registry::FaultCatalogRegistry,
+    fault_record_processor::FaultRecordProcessor,
+    sovd_fault_manager::{Error, SovdFaultManager},
+    sovd_fault_storage::KvsSovdFaultStateStorage,
+};
 use tempfile::tempdir;
 
 fn load_config_file() -> FaultCatalogConfig {

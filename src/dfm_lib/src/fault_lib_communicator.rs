@@ -26,29 +26,35 @@
 //! (in-memory channels, network-based, etc.) without modifying the core
 //! DFM logic.
 
-use common::enabling_condition::EnablingConditionNotification;
-use common::ipc_service_name::{
-    DIAGNOSTIC_FAULT_MANAGER_EVENT_SERVICE_NAME,
-    DIAGNOSTIC_FAULT_MANAGER_HASH_CHECK_RESPONSE_SERVICE_NAME,
-    ENABLING_CONDITION_NOTIFICATION_SERVICE_NAME,
-};
-use common::ipc_service_type::ServiceType;
-use common::sink_error::SinkError;
-use common::types::DiagnosticEvent;
-
-use crate::enabling_condition_registry::EnablingConditionRegistry;
-use crate::fault_record_processor::FaultRecordProcessor;
-use crate::query_server::DfmQueryServer;
-use crate::sovd_fault_storage::SovdFaultStateStorage;
-use crate::transport::DfmTransport;
 use alloc::sync::Arc;
-use core::sync::atomic::{AtomicBool, Ordering};
-use core::time::Duration;
-use iceoryx2::node::NodeBuilder;
-use iceoryx2::port::publisher::Publisher;
-use iceoryx2::port::subscriber::Subscriber;
-use iceoryx2::prelude::{Node, NodeName, ServiceName};
+use core::{
+    sync::atomic::{AtomicBool, Ordering},
+    time::Duration,
+};
+
+use common::{
+    enabling_condition::EnablingConditionNotification,
+    ipc_service_name::{
+        DIAGNOSTIC_FAULT_MANAGER_EVENT_SERVICE_NAME,
+        DIAGNOSTIC_FAULT_MANAGER_HASH_CHECK_RESPONSE_SERVICE_NAME,
+        ENABLING_CONDITION_NOTIFICATION_SERVICE_NAME,
+    },
+    ipc_service_type::ServiceType,
+    sink_error::SinkError,
+    types::DiagnosticEvent,
+};
+use iceoryx2::{
+    node::NodeBuilder,
+    port::{publisher::Publisher, subscriber::Subscriber},
+    prelude::{Node, NodeName, ServiceName},
+};
 use tracing::info;
+
+use crate::{
+    enabling_condition_registry::EnablingConditionRegistry,
+    fault_record_processor::FaultRecordProcessor, query_server::DfmQueryServer,
+    sovd_fault_storage::SovdFaultStateStorage, transport::DfmTransport,
+};
 
 const DIAGNOSTIC_FAULT_MANAGER_LISTENER_NODE_NAME: &str = "fault_listener_node";
 
@@ -419,18 +425,23 @@ pub fn run_dfm_loop<T: DfmTransport, S: SovdFaultStateStorage>(
     clippy::match_wild_err_arm
 )]
 mod tests {
-    use super::*;
-    use crate::dfm_test_utils::*;
-    use crate::enabling_condition_registry::EnablingConditionRegistry;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_storage::SovdFaultStateStorage;
-    use common::fault::{FaultId, LifecycleStage};
-    use common::types::{LongString, to_static_short_string};
+    use std::{
+        sync::{Arc, atomic::AtomicU32},
+        thread,
+        time::Duration,
+    };
+
+    use common::{
+        fault::{FaultId, LifecycleStage},
+        types::{LongString, to_static_short_string},
+    };
     use serial_test::serial;
-    use std::sync::Arc;
-    use std::sync::atomic::AtomicU32;
-    use std::thread;
-    use std::time::Duration;
+
+    use super::*;
+    use crate::{
+        dfm_test_utils::*, enabling_condition_registry::EnablingConditionRegistry,
+        fault_record_processor::FaultRecordProcessor, sovd_fault_storage::SovdFaultStateStorage,
+    };
 
     static TEST_COUNTER: AtomicU32 = AtomicU32::new(0);
 

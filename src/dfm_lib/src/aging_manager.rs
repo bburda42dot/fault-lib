@@ -15,13 +15,12 @@
 //! Aging logic checks whether a fault has been stable long enough
 //! (either in operation cycles or wall-clock time) to be cleared.
 
-use crate::operation_cycle::OperationCycleTracker;
-use crate::sovd_fault_storage::SovdFaultState;
 use alloc::sync::Arc;
+use std::{collections::HashMap, sync::RwLock, time::Instant};
+
 use common::config::{ResetPolicy, ResetTrigger};
-use std::collections::HashMap;
-use std::sync::RwLock;
-use std::time::Instant;
+
+use crate::{operation_cycle::OperationCycleTracker, sovd_fault_storage::SovdFaultState};
 
 /// Per-fault aging state (runtime-only, **not persisted** across restarts).
 ///
@@ -187,9 +186,11 @@ impl AgingManager {
     clippy::arithmetic_side_effects
 )]
 mod tests {
-    use super::*;
-    use common::types::ShortString;
     use std::time::Duration;
+
+    use common::types::ShortString;
+
+    use super::*;
 
     fn make_tracker() -> Arc<RwLock<OperationCycleTracker>> {
         Arc::new(RwLock::new(OperationCycleTracker::new()))
@@ -392,14 +393,18 @@ mod aging_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_storage::SovdFaultStateStorage;
-    use common::config::{ResetPolicy, ResetTrigger};
-    use common::fault::*;
-    use common::types::ShortString;
-    use std::sync::Arc;
-    use std::time::Duration;
+    use std::{sync::Arc, time::Duration};
+
+    use common::{
+        config::{ResetPolicy, ResetTrigger},
+        fault::*,
+        types::ShortString,
+    };
+
+    use crate::{
+        dfm_test_utils::*, fault_record_processor::FaultRecordProcessor,
+        sovd_fault_storage::SovdFaultStateStorage,
+    };
 
     // ============================================================================
     // PowerCycles aging

@@ -20,10 +20,12 @@
 //! [`Iceoryx2Transport`](crate::fault_lib_communicator::Iceoryx2Transport),
 //! which uses iceoryx2 zero-copy shared memory.
 
-use common::enabling_condition::EnablingConditionNotification;
-use common::sink_error::SinkError;
-use common::types::DiagnosticEvent;
 use core::time::Duration;
+
+use common::{
+    enabling_condition::EnablingConditionNotification, sink_error::SinkError,
+    types::DiagnosticEvent,
+};
 
 /// Abstraction over the DFM-side IPC transport.
 ///

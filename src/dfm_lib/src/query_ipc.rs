@@ -16,19 +16,22 @@
 //! iceoryx2 native request-response and converts the [`DfmQueryResponse`]
 //! back to `SovdFault` / `SovdEnvData`.
 
-use crate::query_api::DfmQueryApi;
-use crate::query_conversion::{ipc_env_data_to_sovd, ipc_fault_to_sovd};
-use crate::sovd_fault_manager::{Error, SovdEnvData, SovdFault};
-use alloc::format;
-use alloc::string::String;
-use alloc::vec::Vec;
-use common::ipc_service_name::DFM_QUERY_SERVICE_NAME;
-use common::ipc_service_type::ServiceType;
-use common::query_protocol::{DfmQueryError, DfmQueryRequest, DfmQueryResponse};
-use common::types::{LongString, ShortString};
+use alloc::{format, string::String, vec::Vec};
 use core::time::Duration;
-use iceoryx2::port::client::Client;
-use iceoryx2::prelude::*;
+
+use common::{
+    ipc_service_name::DFM_QUERY_SERVICE_NAME,
+    ipc_service_type::ServiceType,
+    query_protocol::{DfmQueryError, DfmQueryRequest, DfmQueryResponse},
+    types::{LongString, ShortString},
+};
+use iceoryx2::{port::client::Client, prelude::*};
+
+use crate::{
+    query_api::DfmQueryApi,
+    query_conversion::{ipc_env_data_to_sovd, ipc_fault_to_sovd},
+    sovd_fault_manager::{Error, SovdEnvData, SovdFault},
+};
 
 /// Default timeout for waiting for a response from the DFM.
 const DEFAULT_RESPONSE_TIMEOUT: Duration = Duration::from_secs(1);

@@ -22,10 +22,9 @@ rust_library(
     edition = "2024",
     visibility = ["//visibility:public"],
     deps = [
-        "@score_fault_lib_crates//:env_logger",
         "@score_fault_lib_crates//:iceoryx2",
         "@score_fault_lib_crates//:iceoryx2-bb-container",
-        "@score_fault_lib_crates//:log",
+        "@score_fault_lib_crates//:tracing",
         "@score_fault_lib_crates//:serde",
         "@score_fault_lib_crates//:serde_json",
         "@score_fault_lib_crates//:sha2",
@@ -38,10 +37,9 @@ rust_test(
     srcs = [":common_srcs"],
     edition = "2024",
     deps = [
-        "@score_fault_lib_crates//:env_logger",
         "@score_fault_lib_crates//:iceoryx2",
         "@score_fault_lib_crates//:iceoryx2-bb-container",
-        "@score_fault_lib_crates//:log",
+        "@score_fault_lib_crates//:tracing",
         "@score_fault_lib_crates//:mockall",
         "@score_fault_lib_crates//:serde",
         "@score_fault_lib_crates//:serde_json",
