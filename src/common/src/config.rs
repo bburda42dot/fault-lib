@@ -9,14 +9,15 @@
  * terms of the Apache License Version 2.0 which is available at
  * https://www.apache.org/licenses/LICENSE-2.0
  */
-use crate::debounce::IpcDuration;
-use crate::{
-    debounce::DebouncePolicy, fault::ComplianceVec, fault::FaultSeverity, types::ShortString,
-};
-use serde::{Deserialize, Serialize};
-
 use iceoryx2::prelude::*;
 use iceoryx2_bb_container::vector::StaticVec;
+use serde::{Deserialize, Serialize};
+
+use crate::{
+    debounce::{DebouncePolicy, IpcDuration},
+    fault::{ComplianceVec, FaultSeverity},
+    types::ShortString,
+};
 
 /// Reset rules define how and when a latched fault can be cleared.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, ZeroCopySend)]

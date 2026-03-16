@@ -15,11 +15,15 @@
 //! correctly load catalog configurations and produce a working catalog
 //! that can be used in the DFM pipeline.
 
-use crate::helpers::*;
-use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-use common::fault::*;
-use serial_test::serial;
 use std::io::Write;
+
+use common::{
+    catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+    fault::*,
+};
+use serial_test::serial;
+
+use crate::helpers::*;
 
 // ============================================================================
 // JSON catalog fixture

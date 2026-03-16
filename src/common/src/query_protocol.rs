@@ -24,9 +24,10 @@
 //! - `Option<String> schema` omitted (not used in runtime query flow)
 //! - `Option<bool>` -> `bool` (None -> false)
 
-use crate::types::{LongString, ShortString};
 use iceoryx2::prelude::ZeroCopySend;
 use iceoryx2_bb_container::vector::StaticVec;
+
+use crate::types::{LongString, ShortString};
 
 /// Maximum number of faults in a single IPC response.
 pub const MAX_FAULTS_PER_RESPONSE: usize = 64;
@@ -164,8 +165,9 @@ pub enum DfmQueryResponse {
     clippy::arithmetic_side_effects
 )]
 mod tests {
-    use super::*;
     use iceoryx2_bb_container::vector::Vector;
+
+    use super::*;
 
     #[test]
     fn ipc_sovd_fault_is_zero_copy_send() {

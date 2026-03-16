@@ -17,10 +17,12 @@
 //! Fault states, environment snapshots, and DTC status bits are stored
 //! and retrieved through this abstraction.
 
-use crate::sovd_fault_manager::SovdEnvData;
+use std::{collections::HashMap, path::Path, sync::Mutex};
+
 use common::{fault, types::ShortString};
 use rust_kvs::prelude::*;
-use std::{collections::HashMap, path::Path, sync::Mutex};
+
+use crate::sovd_fault_manager::SovdEnvData;
 
 /// Errors that can occur during fault state storage operations.
 #[derive(Debug, thiserror::Error)]
@@ -630,9 +632,12 @@ mod tests {
 mod storage_tests {
     #![allow(clippy::unwrap_used, clippy::expect_used, clippy::doc_markdown)]
 
-    use crate::dfm_test_utils::InMemoryStorage;
-    use crate::sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage};
     use common::fault::*;
+
+    use crate::{
+        dfm_test_utils::InMemoryStorage,
+        sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage},
+    };
 
     /// Storage stores and retrieves fault state correctly.
     #[test]

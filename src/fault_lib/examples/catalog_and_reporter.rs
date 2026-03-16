@@ -11,6 +11,8 @@
  */
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
+use std::thread;
+
 use common::{
     SourceId,
     fault::{FaultId, LifecyclePhase, LifecycleStage},
@@ -21,7 +23,6 @@ use fault_lib::{
     catalog::FaultCatalogBuilder,
     reporter::{Reporter, ReporterApi, ReporterConfig},
 };
-use std::thread;
 
 fn main() {
     let json = std::fs::read_to_string("src/fault_lib/tests/data/hvac_fault_catalog.json")

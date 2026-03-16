@@ -9,10 +9,12 @@
  * terms of the Apache License Version 2.0 which is available at
  * https://www.apache.org/licenses/LICENSE-2.0
  */
-use crate::types::ShortString;
 use core::fmt;
+
 use iceoryx2::prelude::ZeroCopySend;
 use serde::{Deserialize, Serialize};
+
+use crate::types::ShortString;
 
 // Lightweight identifiers that keep fault attribution consistent across the fleet.
 

@@ -27,9 +27,12 @@
 //! - Bool fields -> reconstructed `SovdFaultStatus` + `HashMap`
 //! - `u64` timestamps -> ISO 8601 strings (using existing `format_unix_timestamp`)
 
+use common::{
+    query_protocol::{IpcEnvData, IpcSovdFault},
+    types::{LongString, ShortString},
+};
+
 use crate::sovd_fault_manager::{SovdEnvData, SovdFault, SovdFaultStatus};
-use common::query_protocol::{IpcEnvData, IpcSovdFault};
-use common::types::{LongString, ShortString};
 
 /// Truncating conversion from `&str` to `ShortString`, falling back to empty
 /// on encoding errors (should not happen for valid UTF-8).
@@ -287,14 +290,19 @@ fn days_from_civil(y: i64, m: u32, d: u32) -> u64 {
     clippy::doc_markdown
 )]
 mod tests {
-    use super::*;
-    use crate::dfm_test_utils::*;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_manager::SovdFaultManager;
-    use common::fault::{FaultId, LifecycleStage};
-    use common::types::to_static_short_string;
-    use iceoryx2_bb_container::string::String as IceString;
     use std::sync::Arc;
+
+    use common::{
+        fault::{FaultId, LifecycleStage},
+        types::to_static_short_string,
+    };
+    use iceoryx2_bb_container::string::String as IceString;
+
+    use super::*;
+    use crate::{
+        dfm_test_utils::*, fault_record_processor::FaultRecordProcessor,
+        sovd_fault_manager::SovdFaultManager,
+    };
 
     /// Helper: create a `SovdFault` via the real pipeline.
     fn make_real_fault() -> SovdFault {

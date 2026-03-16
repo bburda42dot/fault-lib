@@ -14,11 +14,10 @@
 //! Tests on extreme/edge values: max-length fault IDs, max faults in a
 //! catalog, many catalogs, env data limits, and Unicode in identifiers.
 
-use crate::helpers::*;
-use common::catalog::FaultCatalogConfig;
-use common::fault::*;
-use common::types::*;
+use common::{catalog::FaultCatalogConfig, fault::*, types::*};
 use serial_test::serial;
+
+use crate::helpers::*;
 
 // ============================================================================
 // 1. Max-length fault IDs

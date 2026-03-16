@@ -14,17 +14,24 @@
 //! These integration tests exercise the full DFM pipeline for each
 //! fault-management flow, including edge cases and boundary conditions.
 
-use crate::helpers::*;
-use common::catalog::FaultCatalogConfig;
-use common::config::{ResetPolicy, ResetTrigger};
-use common::debounce::DebounceMode;
-use common::fault::*;
-use common::types::to_static_short_string;
-use dfm_lib::enabling_condition_registry::EnablingConditionRegistry;
-use dfm_lib::operation_cycle::OperationCycleTracker;
+use std::{
+    sync::{Arc, RwLock},
+    time::Duration,
+};
+
+use common::{
+    catalog::FaultCatalogConfig,
+    config::{ResetPolicy, ResetTrigger},
+    debounce::DebounceMode,
+    fault::*,
+    types::to_static_short_string,
+};
+use dfm_lib::{
+    enabling_condition_registry::EnablingConditionRegistry, operation_cycle::OperationCycleTracker,
+};
 use serial_test::serial;
-use std::sync::{Arc, RwLock};
-use std::time::Duration;
+
+use crate::helpers::*;
 
 // ============================================================================
 // Helper: build a catalog with manager-side debounce

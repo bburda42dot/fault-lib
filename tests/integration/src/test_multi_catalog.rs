@@ -16,10 +16,10 @@
 //! This is the primary multi-tenant scenario in a vehicle ECU.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use crate::helpers::*;
-use common::fault::*;
-use common::types::*;
+use common::{fault::*, types::*};
 use serial_test::serial;
+
+use crate::helpers::*;
 
 /// **Scenario**: Two catalogs (HVAC + IVI) registered, faults are isolated.
 ///

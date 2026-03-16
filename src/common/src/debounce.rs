@@ -11,9 +11,10 @@
  */
 use alloc::collections::VecDeque;
 use core::time::Duration;
+use std::time::Instant;
+
 use iceoryx2::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::time::Instant;
 
 /// IPC-safe duration with guaranteed `#[repr(C)]` layout.
 ///
@@ -281,9 +282,10 @@ impl Debounce for EdgeWithCooldown {
 #[cfg(test)]
 #[allow(clippy::unwrap_used, clippy::expect_used)]
 mod tests {
-    use super::*;
     use core::time::Duration;
     use std::time::Instant;
+
+    use super::*;
 
     #[test]
     fn count_with_window_reports_only_after_min_count_within_window() {

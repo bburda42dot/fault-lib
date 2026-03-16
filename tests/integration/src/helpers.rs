@@ -15,18 +15,23 @@
 //! (catalog, registry, processor, storage, SOVD manager) in a single call,
 //! matching the real deployment topology minus IPC transport.
 
-use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-use common::debounce::DebounceMode;
-use common::fault::*;
-use common::types::*;
-use dfm_lib::fault_catalog_registry::FaultCatalogRegistry;
-use dfm_lib::fault_record_processor::FaultRecordProcessor;
-use dfm_lib::operation_cycle::OperationCycleTracker;
-use dfm_lib::sovd_fault_manager::SovdFaultManager;
-use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
-use std::path::Path;
-use std::sync::{Arc, LazyLock, RwLock};
-use std::time::Duration;
+use std::{
+    path::Path,
+    sync::{Arc, LazyLock, RwLock},
+    time::Duration,
+};
+
+use common::{
+    catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+    debounce::DebounceMode,
+    fault::*,
+    types::*,
+};
+use dfm_lib::{
+    fault_catalog_registry::FaultCatalogRegistry, fault_record_processor::FaultRecordProcessor,
+    operation_cycle::OperationCycleTracker, sovd_fault_manager::SovdFaultManager,
+    sovd_fault_storage::KvsSovdFaultStateStorage,
+};
 use tempfile::TempDir;
 
 /// Shared KVS storage directory used by **all** integration tests.

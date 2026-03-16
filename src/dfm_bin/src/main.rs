@@ -14,9 +14,10 @@ use std::path::PathBuf;
 
 use clap::Parser;
 use common::catalog::FaultCatalogBuilder;
-use dfm_lib::diagnostic_fault_manager::DiagnosticFaultManager;
-use dfm_lib::fault_catalog_registry::FaultCatalogRegistry;
-use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
+use dfm_lib::{
+    diagnostic_fault_manager::DiagnosticFaultManager, fault_catalog_registry::FaultCatalogRegistry,
+    sovd_fault_storage::KvsSovdFaultStateStorage,
+};
 use tracing::{error, info};
 
 #[derive(Parser)]

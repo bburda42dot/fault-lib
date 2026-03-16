@@ -15,11 +15,12 @@
 //! `process_record` + `get_fault`, concurrent delete + process, and
 //! multi-catalog concurrent access.
 
-use crate::helpers::*;
+use std::{sync::Arc, thread};
+
 use common::fault::*;
 use serial_test::serial;
-use std::sync::Arc;
-use std::thread;
+
+use crate::helpers::*;
 
 // ============================================================================
 // 1. Concurrent process_record + get_fault on the same fault

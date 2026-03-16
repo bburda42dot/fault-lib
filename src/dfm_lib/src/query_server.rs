@@ -16,19 +16,21 @@
 //! tools via iceoryx2 request-response and dispatches them to the local
 //! [`SovdFaultManager`]. Called from the DFM event loop via [`poll`](DfmQueryServer::poll).
 
-use crate::query_conversion::{env_data_to_ipc, sovd_fault_to_ipc};
-use crate::sovd_fault_manager::{Error as SovdError, SovdFaultManager};
-use crate::sovd_fault_storage::SovdFaultStateStorage;
-use common::ipc_service_name::DFM_QUERY_SERVICE_NAME;
-use common::ipc_service_type::ServiceType;
-use common::query_protocol::{
-    DfmQueryError, DfmQueryRequest, DfmQueryResponse, MAX_FAULTS_PER_RESPONSE,
+use common::{
+    ipc_service_name::DFM_QUERY_SERVICE_NAME,
+    ipc_service_type::ServiceType,
+    query_protocol::{DfmQueryError, DfmQueryRequest, DfmQueryResponse, MAX_FAULTS_PER_RESPONSE},
+    sink_error::SinkError,
+    types::ShortString,
 };
-use common::sink_error::SinkError;
-use common::types::ShortString;
-use iceoryx2::port::server::Server;
-use iceoryx2::prelude::*;
+use iceoryx2::{port::server::Server, prelude::*};
 use iceoryx2_bb_container::vector::Vector;
+
+use crate::{
+    query_conversion::{env_data_to_ipc, sovd_fault_to_ipc},
+    sovd_fault_manager::{Error as SovdError, SovdFaultManager},
+    sovd_fault_storage::SovdFaultStateStorage,
+};
 
 /// Server-side handler for DFM query requests.
 ///

@@ -15,9 +15,10 @@
 //! `NotTested` → `PreFailed` → Failed → `PrePassed` → Passed, and back.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use crate::helpers::*;
 use common::fault::*;
 use serial_test::serial;
+
+use crate::helpers::*;
 
 /// **Scenario**: Full lifecycle: `NotTested` → Failed → Passed.
 ///

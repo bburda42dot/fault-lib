@@ -20,8 +20,9 @@
 //! descriptor resolution.
 
 use alloc::borrow::Cow;
-use common::catalog::FaultCatalog;
 use std::collections::HashMap;
+
+use common::catalog::FaultCatalog;
 
 /// In-memory registry of fault catalogs, keyed by their entity path.
 ///

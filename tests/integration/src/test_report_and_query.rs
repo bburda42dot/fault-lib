@@ -16,10 +16,10 @@
 //! query the resulting fault status.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use crate::helpers::*;
-use common::fault::*;
-use common::types::*;
+use common::{fault::*, types::*};
 use serial_test::serial;
+
+use crate::helpers::*;
 
 /// **Scenario**: Reporter reports a single fault, DFM stores it, SOVD returns it.
 ///

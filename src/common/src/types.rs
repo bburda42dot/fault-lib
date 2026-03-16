@@ -10,11 +10,13 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use crate::enabling_condition::EnablingConditionStatus;
-use crate::fault::FaultRecord;
 use iceoryx2::prelude::ZeroCopySend;
-use iceoryx2_bb_container::string::{StaticString, StringModificationError};
-use iceoryx2_bb_container::vector::StaticVec;
+use iceoryx2_bb_container::{
+    string::{StaticString, StringModificationError},
+    vector::StaticVec,
+};
+
+use crate::{enabling_condition::EnablingConditionStatus, fault::FaultRecord};
 
 /// IPC-safe fixed-size string (64 bytes).
 pub type ShortString = StaticString<64>;

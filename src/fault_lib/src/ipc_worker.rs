@@ -9,24 +9,29 @@
  * terms of the Apache License Version 2.0 which is available at
  * https://www.apache.org/licenses/LICENSE-2.0
  */
-use crate::enabling_condition::EnablingConditionManager;
-use crate::fault_manager_sink::{SinkInitError, WorkerMsg, WorkerReceiver};
-use alloc::collections::VecDeque;
-use alloc::sync::Weak;
-use common::enabling_condition::EnablingConditionNotification;
-use common::ipc_service_name::{
-    DIAGNOSTIC_FAULT_MANAGER_EVENT_SERVICE_NAME, ENABLING_CONDITION_NOTIFICATION_SERVICE_NAME,
-};
-use common::ipc_service_type::ServiceType;
-use common::sink_error::SinkError;
-use common::types::DiagnosticEvent;
+use alloc::{collections::VecDeque, sync::Weak};
 use core::time::Duration;
-use iceoryx2::port::publisher::Publisher;
-use iceoryx2::port::subscriber::Subscriber;
-use iceoryx2::prelude::{NodeBuilder, ServiceName};
-use std::sync::mpsc;
-use std::time::Instant;
+use std::{sync::mpsc, time::Instant};
+
+use common::{
+    enabling_condition::EnablingConditionNotification,
+    ipc_service_name::{
+        DIAGNOSTIC_FAULT_MANAGER_EVENT_SERVICE_NAME, ENABLING_CONDITION_NOTIFICATION_SERVICE_NAME,
+    },
+    ipc_service_type::ServiceType,
+    sink_error::SinkError,
+    types::DiagnosticEvent,
+};
+use iceoryx2::{
+    port::{publisher::Publisher, subscriber::Subscriber},
+    prelude::{NodeBuilder, ServiceName},
+};
 use tracing::{debug, error, info, warn};
+
+use crate::{
+    enabling_condition::EnablingConditionManager,
+    fault_manager_sink::{SinkInitError, WorkerMsg, WorkerReceiver},
+};
 
 // ============================================================================
 // Retry Configuration (fault_lib-internal, NOT transferred via IPC)
@@ -456,14 +461,16 @@ impl IpcWorker {
     clippy::match_wild_err_arm
 )]
 mod tests {
-    use super::*;
-    use crate::fault_manager_sink::WorkerMsg;
-    use crate::test_utils::*;
-    use crate::utils::to_static_long_string;
+    use std::{
+        sync::atomic::{AtomicUsize, Ordering},
+        thread,
+    };
+
     use common::fault::FaultId;
     use serial_test::serial;
-    use std::sync::atomic::{AtomicUsize, Ordering};
-    use std::thread;
+
+    use super::*;
+    use crate::{fault_manager_sink::WorkerMsg, test_utils::*, utils::to_static_long_string};
 
     // ---------- Helpers ----------
 
