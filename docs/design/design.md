@@ -112,7 +112,7 @@ flowchart LR
 
       rE["<< service>>
       Diagnostic Fault manager"]:::role
-      
+
     end
 
     subgraph Application Layer
@@ -148,7 +148,7 @@ sequenceDiagram
     App->>Reporter: new with catalog & fault_id
     App->>Reporter: create_record
     Reporter-->>App: FaultRecord
-    
+
     Note over App,DFM: Runtime: Detect and Report Fault
   App->>App: update environment data & stage
     App->>Reporter: publish

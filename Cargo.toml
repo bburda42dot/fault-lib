@@ -12,12 +12,12 @@
 resolver = "2"
 
 members = [
-    "src/common",
-    "src/dfm_bin",
-    "src/dfm_lib",
-    "src/fault_lib",
-    "src/xtask",
-    "tests/integration",
+  "src/common",
+  "src/dfm_bin",
+  "src/dfm_lib",
+  "src/fault_lib",
+  "src/xtask",
+  "tests/integration",
 ]
 
 [workspace.package]

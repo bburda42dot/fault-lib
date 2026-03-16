@@ -32,7 +32,7 @@ use tracing::*;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about= None)]
 struct Args {
-    /// path to fault catalog json file  
+    /// path to fault catalog json file
     #[arg(short, long)]
     config_file: PathBuf,
 }
