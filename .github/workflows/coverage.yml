@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   coverage:
-    uses: eclipse-opensovd/cicd-workflows/.github/workflows/coverage.yml@main
+    uses: eclipse-opensovd/cicd-workflows/.github/workflows/coverage.yml@fef5cc7b2d4c4c6593b105402fbf4edd54db7d5a
     with:
       cargo-locked: true
       coverage-threshold: 90

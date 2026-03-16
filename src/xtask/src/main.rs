@@ -10,11 +10,12 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use std::collections::HashMap;
-use std::env;
-use std::fs;
-use std::path::Path;
-use std::process::{Command, exit};
+use std::{
+    collections::HashMap,
+    env, fs,
+    path::Path,
+    process::{Command, exit},
+};
 
 fn main() {
     let mut args = env::args().skip(1); // skip the binary name

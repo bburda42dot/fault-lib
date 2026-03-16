@@ -10,27 +10,31 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use crate::FaultApi;
-use crate::enabling_condition::EnablingConditionManager;
-use crate::ipc_worker::IpcWorker;
-use crate::sink::FaultSinkApi;
-use crate::utils::to_static_long_string;
 use alloc::sync::Weak;
-use common::fault::FaultRecord;
-use common::ipc_service_name::DIAGNOSTIC_FAULT_MANAGER_HASH_CHECK_RESPONSE_SERVICE_NAME;
-use common::ipc_service_type::ServiceType;
-use common::sink_error::SinkError;
-use common::types::{DiagnosticEvent, LONG_STRING_CAPACITY, Sha256Vec};
 use core::time::Duration;
-use iceoryx2::port::subscriber::Subscriber;
-use iceoryx2::prelude::{NodeBuilder, ServiceName};
-use std::sync::mpsc::TrySendError;
-use std::time::Instant;
 use std::{
-    sync::mpsc,
+    sync::{mpsc, mpsc::TrySendError},
     thread::{self, JoinHandle},
+    time::Instant,
+};
+
+use common::{
+    fault::FaultRecord,
+    ipc_service_name::DIAGNOSTIC_FAULT_MANAGER_HASH_CHECK_RESPONSE_SERVICE_NAME,
+    ipc_service_type::ServiceType,
+    sink_error::SinkError,
+    types::{DiagnosticEvent, LONG_STRING_CAPACITY, Sha256Vec},
+};
+use iceoryx2::{
+    port::subscriber::Subscriber,
+    prelude::{NodeBuilder, ServiceName},
 };
 use tracing::{debug, error, warn};
+
+use crate::{
+    FaultApi, enabling_condition::EnablingConditionManager, ipc_worker::IpcWorker,
+    sink::FaultSinkApi, utils::to_static_long_string,
+};
 
 /// Initialization errors for the IPC sink and worker.
 #[derive(Debug, Clone, thiserror::Error)]
@@ -400,12 +404,12 @@ impl Drop for FaultManagerSink {
     clippy::arithmetic_side_effects
 )]
 mod tests {
+    use std::{sync::Arc, time::Duration};
+
+    use common::{FaultId, types::*};
+
     use super::*;
     use crate::test_utils::*;
-    use common::FaultId;
-    use common::types::*;
-    use std::sync::Arc;
-    use std::time::Duration;
 
     fn new_for_publish_test() -> (FaultManagerSink, mpsc::Receiver<WorkerMsg>) {
         let (tx, rx) = mpsc::sync_channel(CHANNEL_CAPACITY);

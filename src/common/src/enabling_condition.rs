@@ -20,9 +20,10 @@
 //! See `docs/puml/new_enable_condition.puml` and `docs/puml/enable_condition_ntf.puml`
 //! for the design-level sequence diagrams.
 
-use crate::types::ShortString;
 use iceoryx2::prelude::ZeroCopySend;
 use serde::{Deserialize, Serialize};
+
+use crate::types::ShortString;
 
 /// Status of an enabling condition.
 ///

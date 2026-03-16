@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   build-and-test:
-    uses: eclipse-opensovd/cicd-workflows/.github/workflows/build-and-test.yml@main
+    uses: eclipse-opensovd/cicd-workflows/.github/workflows/build-and-test.yml@fef5cc7b2d4c4c6593b105402fbf4edd54db7d5a
     with:
       rust-version: "nightly-2025-07-14"
       cargo-locked: true

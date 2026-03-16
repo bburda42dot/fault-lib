@@ -22,6 +22,15 @@
 //! ([`SovdFaultStateStorage`]) and the IPC transport ([`DfmTransport`]).
 //! The default transport is [`Iceoryx2Transport`] (iceoryx2 shared memory).
 
+use alloc::sync::Arc;
+use core::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    sync::{Mutex, RwLock},
+    thread::{self, JoinHandle},
+};
+
+use tracing::{error, info};
+
 use crate::{
     enabling_condition_registry::EnablingConditionRegistry,
     fault_catalog_registry::FaultCatalogRegistry,
@@ -35,13 +44,6 @@ use crate::{
     sovd_fault_storage::SovdFaultStateStorage,
     transport::DfmTransport,
 };
-use alloc::sync::Arc;
-use core::sync::atomic::{AtomicBool, Ordering};
-use std::{
-    sync::{Mutex, RwLock},
-    thread::{self, JoinHandle},
-};
-use tracing::{error, info};
 
 /// Central DFM orchestrator, generic over storage `S` and transport `T`.
 ///
@@ -270,10 +272,10 @@ impl<S: SovdFaultStateStorage, T: DfmTransport> Drop for DiagnosticFaultManager<
 #[cfg(not(miri))]
 #[allow(clippy::unwrap_used, clippy::expect_used)]
 mod tests {
-    use super::*;
-    use crate::dfm_test_utils::*;
-    use crate::operation_cycle::ManualCycleProvider;
     use serial_test::serial;
+
+    use super::*;
+    use crate::{dfm_test_utils::*, operation_cycle::ManualCycleProvider};
 
     /// Unwrap Arc<FaultCatalogRegistry> from test helpers into owned value.
     fn owned_registry() -> FaultCatalogRegistry {

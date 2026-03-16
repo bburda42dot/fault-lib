@@ -10,11 +10,15 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use crate::fault::{FaultDescriptor, FaultId};
-use crate::types::LongString;
 use alloc::borrow::Cow;
-use sha2::{Digest, Sha256};
 use std::{collections::HashMap, fs, path::PathBuf};
+
+use sha2::{Digest, Sha256};
+
+use crate::{
+    fault::{FaultDescriptor, FaultId},
+    types::LongString,
+};
 
 /// Error type for fault catalog building failures.
 #[derive(Debug, thiserror::Error)]
@@ -359,9 +363,10 @@ impl<'a> FaultCatalogBuilder<'a> {
 #[allow(clippy::unwrap_used, clippy::expect_used)]
 mod tests {
     use super::*;
-
-    use crate::fault::{ComplianceVec, FaultSeverity, FaultType};
-    use crate::types::to_static_short_string;
+    use crate::{
+        fault::{ComplianceVec, FaultSeverity, FaultType},
+        types::to_static_short_string,
+    };
 
     fn make_descriptor(id: FaultId) -> FaultDescriptor {
         FaultDescriptor {

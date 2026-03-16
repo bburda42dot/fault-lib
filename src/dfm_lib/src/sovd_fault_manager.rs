@@ -17,11 +17,15 @@
 //! environment snapshots, and request fault clears.  Backed by
 //! [`FaultCatalogRegistry`] and [`SovdFaultStateStorage`].
 
-use crate::fault_catalog_registry::FaultCatalogRegistry;
-use crate::sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage, StorageError};
 use alloc::sync::Arc;
-use common::{fault, types::ShortString};
 use std::collections::HashMap;
+
+use common::{fault, types::ShortString};
+
+use crate::{
+    fault_catalog_registry::FaultCatalogRegistry,
+    sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage, StorageError},
+};
 
 #[derive(Debug, thiserror::Error, PartialEq, Eq, Clone)]
 #[non_exhaustive]
@@ -665,15 +669,21 @@ mod sovd_manager_tests {
         clippy::arithmetic_side_effects
     )]
 
-    use crate::dfm_test_utils::*;
-    use crate::fault_catalog_registry::FaultCatalogRegistry;
-    use crate::fault_record_processor::FaultRecordProcessor;
-    use crate::sovd_fault_manager::{Error, SovdFaultManager};
-    use crate::sovd_fault_storage::SovdFaultStateStorage;
-    use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-    use common::fault::*;
-    use common::types::to_static_short_string;
     use std::sync::Arc;
+
+    use common::{
+        catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+        fault::*,
+        types::to_static_short_string,
+    };
+
+    use crate::{
+        dfm_test_utils::*,
+        fault_catalog_registry::FaultCatalogRegistry,
+        fault_record_processor::FaultRecordProcessor,
+        sovd_fault_manager::{Error, SovdFaultManager},
+        sovd_fault_storage::SovdFaultStateStorage,
+    };
 
     fn make_processor_with_registry(
         storage: Arc<InMemoryStorage>,
@@ -894,8 +904,8 @@ mod sovd_manager_tests {
         let record_numeric = make_record(FaultId::Numeric(0x1001), LifecycleStage::Failed);
         let record_uuid = make_record(
             FaultId::Uuid([
-                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e,
-                0x0f, 0x10,
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
+                0x0F, 0x10,
             ]),
             LifecycleStage::Failed,
         );
@@ -956,8 +966,8 @@ mod sovd_manager_tests {
 
         let record = make_record(
             FaultId::Uuid([
-                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e,
-                0x0f, 0x10,
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
+                0x0F, 0x10,
             ]),
             LifecycleStage::Failed,
         );

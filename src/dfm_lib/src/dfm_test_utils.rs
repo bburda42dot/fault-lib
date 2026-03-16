@@ -22,20 +22,28 @@
     clippy::arithmetic_side_effects
 )]
 
-use crate::fault_catalog_registry::FaultCatalogRegistry;
-use crate::operation_cycle::OperationCycleTracker;
-use crate::sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage, StorageError};
-use crate::transport::DfmTransport;
-use common::catalog::{FaultCatalogBuilder, FaultCatalogConfig};
-use common::config::ResetPolicy;
-use common::debounce::DebounceMode;
-use common::enabling_condition::EnablingConditionNotification;
-use common::fault;
-use common::fault::*;
-use common::sink_error::SinkError;
-use common::types::*;
-use std::collections::HashMap;
-use std::sync::{Arc, Mutex, RwLock, mpsc};
+use std::{
+    collections::HashMap,
+    sync::{Arc, Mutex, RwLock, mpsc},
+};
+
+use common::{
+    catalog::{FaultCatalogBuilder, FaultCatalogConfig},
+    config::ResetPolicy,
+    debounce::DebounceMode,
+    enabling_condition::EnablingConditionNotification,
+    fault,
+    fault::*,
+    sink_error::SinkError,
+    types::*,
+};
+
+use crate::{
+    fault_catalog_registry::FaultCatalogRegistry,
+    operation_cycle::OperationCycleTracker,
+    sovd_fault_storage::{SovdFaultState, SovdFaultStateStorage, StorageError},
+    transport::DfmTransport,
+};
 
 // ============================================================================
 // In-memory mock storage for testing
@@ -222,8 +230,8 @@ pub fn make_mixed_registry() -> Arc<FaultCatalogRegistry> {
             },
             FaultDescriptor {
                 id: FaultId::Uuid([
-                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,
-                    0x0e, 0x0f, 0x10,
+                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
+                    0x0E, 0x0F, 0x10,
                 ]),
                 name: to_static_short_string("UUID Fault").unwrap(),
                 summary: Some(to_static_long_string("A UUID-identified fault").unwrap()),

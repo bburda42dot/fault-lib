@@ -10,16 +10,20 @@
  * https://www.apache.org/licenses/LICENSE-2.0
  */
 
-use crate::enabling_condition::{
-    EnablingCondition, EnablingConditionCallback, EnablingConditionError, EnablingConditionManager,
-    FaultMonitor,
-};
-use crate::fault_manager_sink::SinkInitError;
-use crate::{FaultSinkApi, LogHook, catalog::FaultCatalog, fault_manager_sink::FaultManagerSink};
 use alloc::sync::{Arc, Weak};
-use common::enabling_condition::EnablingConditionStatus;
-use common::sink_error::SinkError;
 use std::sync::OnceLock;
+
+use common::{enabling_condition::EnablingConditionStatus, sink_error::SinkError};
+
+use crate::{
+    FaultSinkApi, LogHook,
+    catalog::FaultCatalog,
+    enabling_condition::{
+        EnablingCondition, EnablingConditionCallback, EnablingConditionError,
+        EnablingConditionManager, FaultMonitor,
+    },
+    fault_manager_sink::{FaultManagerSink, SinkInitError},
+};
 
 /// Consolidated global state — single `OnceLock` prevents partial initialization.
 struct FaultApiState {
@@ -253,8 +257,9 @@ impl FaultApi {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use alloc::format;
+
+    use super::*;
 
     // ---- try_get_fault_sink (before init) ----
 

@@ -19,14 +19,17 @@
 //! - Empty catalog behavior
 //! - KVS storage initialization failures
 //! - Catalog builder double-configuration detection
-//! - Duplicate FaultId detection in catalog configs
+//! - Duplicate `FaultId` detection in catalog configs
 
-use crate::helpers::*;
-use common::catalog::{CatalogBuildError, FaultCatalogBuilder, FaultCatalogConfig};
-use common::fault::*;
-use common::types::to_static_short_string;
+use common::{
+    catalog::{CatalogBuildError, FaultCatalogBuilder, FaultCatalogConfig},
+    fault::*,
+    types::to_static_short_string,
+};
 use dfm_lib::sovd_fault_storage::KvsSovdFaultStateStorage;
 use serial_test::serial;
+
+use crate::helpers::*;
 
 // ============================================================================
 // 1. Invalid Fault ID
@@ -276,7 +279,7 @@ fn catalog_builder_rejects_duplicate_numeric_fault_id() {
     );
 }
 
-/// Duplicate text-based FaultIds are also caught.
+/// Duplicate text-based `FaultIds` are also caught.
 #[test]
 fn catalog_builder_rejects_duplicate_text_fault_id() {
     let dup_config = FaultCatalogConfig {

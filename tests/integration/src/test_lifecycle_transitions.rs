@@ -12,14 +12,15 @@
 //! Fault lifecycle transition tests.
 //!
 //! Validates the complete fault lifecycle as seen through the SOVD interface:
-//! NotTested → PreFailed → Failed → PrePassed → Passed, and back.
+//! `NotTested` → `PreFailed` → Failed → `PrePassed` → Passed, and back.
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
-use crate::helpers::*;
 use common::fault::*;
 use serial_test::serial;
 
-/// **Scenario**: Full lifecycle: NotTested → Failed → Passed.
+use crate::helpers::*;
+
+/// **Scenario**: Full lifecycle: `NotTested` → Failed → Passed.
 ///
 /// A newly detected fault transitions through the standard lifecycle.
 /// After being reported as `Failed`, the DTC flags are set. When the
@@ -84,9 +85,9 @@ fn prefailed_sets_pending_without_confirming() {
     );
 }
 
-/// **Scenario**: PreFailed → Failed confirms the DTC.
+/// **Scenario**: `PreFailed` → Failed confirms the DTC.
 ///
-/// The standard diagnostic flow: a developing fault (PreFailed) is
+/// The standard diagnostic flow: a developing fault (`PreFailed`) is
 /// confirmed (Failed). The pending flag clears and confirmed is set.
 #[test]
 #[serial]
@@ -116,7 +117,7 @@ fn prefailed_then_failed_confirms_dtc() {
     );
 }
 
-/// **Scenario**: NotTested marks the test-not-completed flag.
+/// **Scenario**: `NotTested` marks the test-not-completed flag.
 ///
 /// When a diagnostic monitor cannot complete (e.g., preconditions not met),
 /// it reports `NotTested`. This sets the ISO 14229 bit for

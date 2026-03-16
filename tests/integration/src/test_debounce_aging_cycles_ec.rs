@@ -14,17 +14,24 @@
 //! These integration tests exercise the full DFM pipeline for each
 //! fault-management flow, including edge cases and boundary conditions.
 
-use crate::helpers::*;
-use common::catalog::FaultCatalogConfig;
-use common::config::{ResetPolicy, ResetTrigger};
-use common::debounce::DebounceMode;
-use common::fault::*;
-use common::types::to_static_short_string;
-use dfm_lib::enabling_condition_registry::EnablingConditionRegistry;
-use dfm_lib::operation_cycle::OperationCycleTracker;
+use std::{
+    sync::{Arc, RwLock},
+    time::Duration,
+};
+
+use common::{
+    catalog::FaultCatalogConfig,
+    config::{ResetPolicy, ResetTrigger},
+    debounce::DebounceMode,
+    fault::*,
+    types::to_static_short_string,
+};
+use dfm_lib::{
+    enabling_condition_registry::EnablingConditionRegistry, operation_cycle::OperationCycleTracker,
+};
 use serial_test::serial;
-use std::sync::{Arc, RwLock};
-use std::time::Duration;
+
+use crate::helpers::*;
 
 // ============================================================================
 // Helper: build a catalog with manager-side debounce
@@ -72,7 +79,7 @@ fn aging_catalog_config(policy: ResetPolicy) -> FaultCatalogConfig {
 // 1. Debounce: CountWithinWindow E2E
 // ============================================================================
 
-/// CountWithinWindow debounce: events below min_count are suppressed.
+/// `CountWithinWindow` debounce: events below `min_count` are suppressed.
 /// Only the N-th event within the window fires the fault through.
 #[test]
 #[serial]
@@ -121,10 +128,10 @@ fn debounce_count_within_window_suppresses_below_threshold() {
 // 2. Debounce: HoldTime E2E
 // ============================================================================
 
-/// HoldTime debounce: first event starts timer, second within hold time
+/// `HoldTime` debounce: first event starts timer, second within hold time
 /// is suppressed, event after hold time elapses fires.
 ///
-/// NOTE: HoldTime's on_event() checks wall-clock Instant. In integration
+/// NOTE: `HoldTime`'s `on_event()` checks wall-clock Instant. In integration
 /// tests we can only verify that the first event is always suppressed.
 #[test]
 #[serial]
@@ -155,7 +162,7 @@ fn debounce_holdtime_first_event_always_suppressed() {
 // 3. Debounce: EdgeWithCooldown E2E
 // ============================================================================
 
-/// EdgeWithCooldown: first event fires immediately, subsequent events
+/// `EdgeWithCooldown`: first event fires immediately, subsequent events
 /// within cooldown are suppressed.
 #[test]
 #[serial]
@@ -186,7 +193,7 @@ fn debounce_edge_with_cooldown_first_fires_then_suppresses() {
 // 4. Aging: PowerCycles E2E
 // ============================================================================
 
-/// Aging with PowerCycles: confirmed_dtc stays latched after Passed until
+/// Aging with `PowerCycles`: `confirmed_dtc` stays latched after Passed until
 /// the required number of power cycles elapse.
 #[test]
 #[serial]
@@ -355,7 +362,7 @@ fn enabling_condition_status_transitions() {
 // Edge cases
 // ============================================================================
 
-/// Rapid events within a CountWithinWindow debounce:
+/// Rapid events within a `CountWithinWindow` debounce:
 /// sending many events quickly should eventually fire.
 #[test]
 #[serial]
@@ -390,7 +397,7 @@ fn debounce_rapid_events_eventually_fire() {
     assert_eq!(fault.typed_status.as_ref().unwrap().test_failed, Some(true));
 }
 
-/// Zero-threshold debounce (min_count = 1) should fire on first event
+/// Zero-threshold debounce (`min_count` = 1) should fire on first event
 /// (though not a realistic production config, tests boundary behavior).
 #[test]
 #[serial]

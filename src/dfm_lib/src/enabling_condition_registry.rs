@@ -16,8 +16,9 @@
 //! When a status changes, the registry notifies the communicator to
 //! broadcast the change to all `FaultLib` subscribers.
 
-use common::enabling_condition::EnablingConditionStatus;
 use std::collections::HashMap;
+
+use common::enabling_condition::EnablingConditionStatus;
 use tracing::{debug, info, warn};
 
 /// DFM-side registry of enabling conditions.

@@ -12,20 +12,21 @@
 //! Concurrent access integration tests.
 //!
 //! These tests verify thread-safety under contention: concurrent
-//! process_record + get_fault, concurrent delete + process, and
+//! `process_record` + `get_fault`, concurrent delete + process, and
 //! multi-catalog concurrent access.
 
-use crate::helpers::*;
+use std::{sync::Arc, thread};
+
 use common::fault::*;
 use serial_test::serial;
-use std::sync::Arc;
-use std::thread;
+
+use crate::helpers::*;
 
 // ============================================================================
 // 1. Concurrent process_record + get_fault on the same fault
 // ============================================================================
 
-/// Concurrent writes (process_record) and reads (get_all_faults)
+/// Concurrent writes (`process_record`) and reads (`get_all_faults`)
 /// on the same catalog must not panic or corrupt data.
 ///
 /// The outer `Mutex<TestHarness>` is architecturally necessary because
@@ -146,7 +147,7 @@ fn concurrent_reads_on_manager_does_not_panic() {
 // 2. Concurrent delete + process on the same fault
 // ============================================================================
 
-/// Concurrent delete_all_faults and process_record must not panic.
+/// Concurrent `delete_all_faults` and `process_record` must not panic.
 /// The storage layer must handle interleaved writes and deletes gracefully.
 #[test]
 #[serial]

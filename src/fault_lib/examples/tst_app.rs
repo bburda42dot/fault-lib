@@ -11,28 +11,24 @@
  */
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
+use std::{path::PathBuf, thread, time::Duration};
+
 use clap::Parser;
-use common::fault::*;
-use common::types::MetadataVec;
-use fault_lib::FaultApi;
-use fault_lib::catalog::FaultCatalogBuilder;
-use tracing_subscriber::EnvFilter;
-
-use fault_lib::reporter::Reporter;
-use fault_lib::reporter::ReporterApi;
-use fault_lib::reporter::ReporterConfig;
-use fault_lib::utils::to_static_short_string;
-
-use std::path::PathBuf;
-use std::thread;
-use std::time::Duration;
+use common::{fault::*, types::MetadataVec};
+use fault_lib::{
+    FaultApi,
+    catalog::FaultCatalogBuilder,
+    reporter::{Reporter, ReporterApi, ReporterConfig},
+    utils::to_static_short_string,
+};
 use tracing::*;
+use tracing_subscriber::EnvFilter;
 
 /// Command line arguments
 #[derive(Parser, Debug)]
 #[command(version, about, long_about= None)]
 struct Args {
-    /// path to fault catalog json file  
+    /// path to fault catalog json file
     #[arg(short, long)]
     config_file: PathBuf,
 }

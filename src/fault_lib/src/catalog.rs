@@ -25,13 +25,16 @@ pub use common::catalog::*;
     clippy::arithmetic_side_effects
 )]
 mod tests {
-    use super::*;
-    use common::debounce::DebounceMode;
-    use common::fault::*;
-    use common::types::{to_static_long_string, to_static_short_string};
+    use std::{path::PathBuf, time::Duration};
+
+    use common::{
+        debounce::DebounceMode,
+        fault::*,
+        types::{to_static_long_string, to_static_short_string},
+    };
     use iceoryx2_bb_container::vector::Vector;
-    use std::path::PathBuf;
-    use std::time::Duration;
+
+    use super::*;
 
     /// Resolves test data file paths for both Cargo and Bazel test environments.
     /// Cargo runs from crate root, Bazel uses `CARGO_MANIFEST_DIR` env var.

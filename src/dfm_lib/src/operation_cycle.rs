@@ -22,8 +22,7 @@
 //! platform-specific signals into [`OperationCycleEvent`] values that the
 //! [`OperationCycleTracker`] consumes to advance counters.
 
-use std::collections::HashMap;
-use std::time::SystemTime;
+use std::{collections::HashMap, time::SystemTime};
 
 // ---------------------------------------------------------------------------
 // Event types
